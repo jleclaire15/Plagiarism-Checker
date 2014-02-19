@@ -5,32 +5,52 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Arrays;
 
 public class PlagiarismChecker {
   
-  public static void main(String[] args)
-  {
-    
-    Arraylist<String> b = new Arraylist<String>();
-    
-    String a = fileToArraylist()[0];
-    
-  System.out.println(a);
+  String filePath = "";
   
-    
+  public PlagiarismChecker(String userFilePath){
+    filePath = userFilePath; 
   }
-
-  public static ArrayList<String> fileToArraylist()  throws FileNotFoundException {
-    
+  
+  public ArrayList<String> fileToArraylist()  throws FileNotFoundException {    //Arraylist of 6 word phrases
     ArrayList<String> phrase = new ArrayList<String>();  
-    File f = new File("/Users/jleclaire15/Plagiarism Checker/sm_doc_set 2/catchmeifyoucan.txt");
-    Scanner scan = new Scanner(f);    
     
-    for(int i = 0; i < 6; i++){      
+    File text = new File(filePath);
+    Scanner scan = new Scanner(text);  
+    
+    for(int i = 0; scan.hasNextLine(); i++){             
       phrase.add(scan.nextLine());     
+    }    
+    
+    return phrase;    
+  }
+  
+  public ArrayList<Integer> listToHash(ArrayList<String> words){
+    
+    ArrayList<Integer> hashlist = new ArrayList<Integer>();
+    ArrayList<String> wordlist = words;
+    String temp = "";
+    
+    for(int i = 0;  i < words.size(); i++){
+      for(
+      
+      
+      
+      
+      
     }
     
-    return phrase;
- 
+    
+    return null;
+    
   }
+  
+  
+  
+  
+  
+  
 }
