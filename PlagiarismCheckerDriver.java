@@ -19,39 +19,40 @@ public class PlagiarismCheckerDriver {
      * 
      */
     
-    File docs = new File("./sm_doc_set 2/"); //makes file of folder with sample docs
+    File sampDocFolder = new File("./sm_doc_set 2/"); //makes file of folder with sample docs
     
-    ArrayList<ArrayList<String>> wordlist = new ArrayList<ArrayList<String>>(); //array of string arrays to hold wordlists of sample docs  
-    ArrayList<ArrayList<Integer>> hashlist = new ArrayList<ArrayList<Integer>>();
-    ArrayList<PlagiarismChecker> classes = new ArrayList<PlagiarismChecker>(); //array of checker classes to have a different class for each sample doc    
+    ArrayList<ArrayList<String>> sampWordlist = new ArrayList<ArrayList<String>>(); //array of string arrays to hold wordlists of sample docs  
+    ArrayList<ArrayList<Integer>> sampHashlist = new ArrayList<ArrayList<Integer>>();
+    ArrayList<PlagiarismChecker> sampClasses = new ArrayList<PlagiarismChecker>(); //array of checker classes to have a different class for each sample doc    
     
-    for(File doc : docs.listFiles()){ //for every samp doc, instantiate a checker and add it to array of checkers
-      classes.add(new PlagiarismChecker(doc.getPath()));
+    for(File sampDoc : sampDocFolder.listFiles()){ //for every samp doc, instantiate a checker and add it to array of checkers
+      sampClasses.add(new PlagiarismChecker(sampDoc.getPath()));
     }
     
-    for(PlagiarismChecker checker : classes){ //for each one of those checkers, add the sample docs string array to wordlist
-      wordlist.add(checker.fileToArraylist());
-      hashlist.add(checker.listToHash(checker.fileToArraylist())); //turn string array to hashlist
+    for(PlagiarismChecker sampClass : sampClasses){ //for each one of those checkers, add the sample docs string array to wordlist
+      sampWordlist.add(sampClass.fileToArraylist());
+      sampHashlist.add(sampClass.listToHash(sampClass.fileToArraylist())); //turn string array to hashlist
     }
     
     Scanner kb = new Scanner(System.in);
     System.out.println("Enter file path of the document you wish to check.");
-    String filePath1 = kb.nextLine(); //filepath of user doc
+    String userFilePath = kb.nextLine(); //filepath of user doc
     
-    PlagiarismChecker checker1 = new PlagiarismChecker(filePath1); //checker for the user doc
-    ArrayList<String> wordlist1 = new ArrayList<String>(); //wordlist, hashlist ofr user doc
-    ArrayList<Integer> hashlist1 = new ArrayList<Integer>();
+    PlagiarismChecker userClass = new PlagiarismChecker(userFilePath); //checker for the user doc
+    ArrayList<String> userWordlist = new ArrayList<String>(); //wordlist, hashlist for user doc
+    ArrayList<Integer> userHashlist = new ArrayList<Integer>();
     
-    wordlist1.addAll(checker1.fileToArraylist());
-    hashlist1.addAll(checker1.listToHash(checker1.fileToArraylist()));
+    userWordlist.addAll(userClass.fileToArraylist());
+    userHashlist.addAll(userClass.listToHash(userClass.fileToArraylist()));
     
-    for(ArrayList<Integer> check : hashlist){ //retain all hashes same between user doc and sample doc
-      check.retainAll(hashlist1);     
+    for(ArrayList<Integer> sampHash : sampHashlist){ //retain all hashes same between user doc and sample doc
+      sampHash.retainAll(userHashlist);     
     }
     
-    for(int i = 0; i < docs.listFiles().length; i++){     //prints name and length of all file hashlists  
-      System.out.print("six word phrases in common with " + docs.listFiles()[i]);
-      System.out.println("             " + hashlist.get(i).size());  
+    System.out.println("Six word phrases in common with: ");
+    
+    for(int i = 0; i < sampDocFolder.listFiles().length; i++){     //prints name and length of all file hashlists  
+      System.out.println(sampDocFolder.listFiles()[i] + "             " + sampHashlist.get(i).size());  
     }
   }  
 }
