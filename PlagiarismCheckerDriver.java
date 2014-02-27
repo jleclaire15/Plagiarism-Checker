@@ -1,4 +1,6 @@
 //John LeClaire, Plagiarism Checker
+//Checks one file with folder of files
+//Must be a .txt file
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -51,8 +53,18 @@ public class PlagiarismCheckerDriver {
     
     System.out.println("Six word phrases in common with: ");
     
+    ArrayList<String> suspectedFiles = new ArrayList<String>();
+    
     for(int i = 0; i < sampDocFolder.listFiles().length; i++){     //prints name and length of all file hashlists  
-      System.out.println(sampDocFolder.listFiles()[i] + "             " + sampHashlist.get(i).size());  
+      System.out.println(sampDocFolder.listFiles()[i] + "             " + sampHashlist.get(i).size()); 
+      
+      if(sampHashlist.get(i).size() >= 200){
+        suspectedFiles.add(sampDocFolder.listFiles()[i].getName());        
+      }
+      
     }
+    
+    System.out.println("Plagiarism detected between files: " + suspectedFiles);
+    
   }  
 }
