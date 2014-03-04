@@ -30,7 +30,7 @@ public class PlagiarismChecker {
     
     ArrayList<String> sixWordPhrases = new ArrayList<String>(); //separate array for 6 word phrase array
     
-    while(wordlist.size() >=6){ //adds 0-5 words to make a phrase, adds to sep 6 word array, deletes index 0 from single word array
+    while(wordlist.size() >=6){ //adds 0-5 words to make a phrase, adds to sep 6 word array, deletes index 0 from single word array, repeats
       sixWordPhrases.add(wordlist.get(0) + " " + wordlist.get(1) + " " + wordlist.get(2) + " " + wordlist.get(3) + " " + wordlist.get(4) + " " + wordlist.get(5));
       wordlist.remove(0);
     }    
@@ -47,6 +47,7 @@ public class PlagiarismChecker {
       hashlist.add(sixWordPhrase.hashCode());
       
     }
+
     return hashlist;      
   }
 }

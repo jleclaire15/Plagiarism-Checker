@@ -12,16 +12,24 @@ import java.util.Arrays;
 
 public class PlagiarismCheckerDriver {
   
-  public static void main(String[] args) throws FileNotFoundException
+  String userDoc = "";
+  
+  public PlagiarismCheckerDriver(String userFile)
   {
-    
-    /*
-     * Files to check
-     * ./sm_doc_set 2/catchmeifyoucan.txt
-     * 
-     */
+    userDoc = userFile;
+  }
+  
+  /*
+   * Files to check
+   * ./sm_doc_set 2/catchmeifyoucan.txt
+   * 
+   */
+  
+  public void execute() throws FileNotFoundException {
     
     File sampDocFolder = new File("./sm_doc_set 2/"); //makes file of folder with sample docs
+    
+    File userDocu = new File("./sm_doc_set 2/" + userDoc);
     
     ArrayList<ArrayList<String>> sampWordlist = new ArrayList<ArrayList<String>>(); //array of string arrays to hold wordlists of sample docs  
     ArrayList<ArrayList<Integer>> sampHashlist = new ArrayList<ArrayList<Integer>>();
@@ -36,9 +44,7 @@ public class PlagiarismCheckerDriver {
       sampHashlist.add(sampClass.listToHash(sampClass.fileToArraylist())); //turn string array to hashlist
     }
     
-    Scanner kb = new Scanner(System.in);
-    System.out.println("Enter file path of the document you wish to check.");
-    String userFilePath = kb.nextLine(); //filepath of user doc
+    String userFilePath = userDoc; //filepath of user doc
     
     PlagiarismChecker userClass = new PlagiarismChecker(userFilePath); //checker for the user doc
     ArrayList<String> userWordlist = new ArrayList<String>(); //wordlist, hashlist for user doc
@@ -51,20 +57,27 @@ public class PlagiarismCheckerDriver {
       sampHash.retainAll(userHashlist);     
     }
     
-    System.out.println("Six word phrases in common with: ");
-    
     ArrayList<String> suspectedFiles = new ArrayList<String>();
     
-    for(int i = 0; i < sampDocFolder.listFiles().length; i++){     //prints name and length of all file hashlists  
-      System.out.println(sampDocFolder.listFiles()[i] + "             " + sampHashlist.get(i).size()); 
+    for(int i = 0; i < sampDocFolder.listFiles().length; i++){     //prints name and length of all file hashlists 
       
-      if(sampHashlist.get(i).size() >= 200){
-        suspectedFiles.add(sampDocFolder.listFiles()[i].getName());        
+      if(sampHashlist.get(i).size() == 0){
+       System.out.print("-" + " ");
       }
       
+      else System.out.print(sampHashlist.get(i).size() + " "); 
+      
+      
+      if(!sampDocFolder.listFiles()[i].getName().equalsIgnoreCase(userDocu.getName())){
+        
+        if(sampHashlist.get(i).size() >= 200){
+          suspectedFiles.add(sampDocFolder.listFiles()[i].getName());        
+        }
+        
+      }
     }
     
-    System.out.println("Plagiarism detected between files: " + suspectedFiles);
+    System.out.println("\tPlagiarism detected between files: " + suspectedFiles);
     
   }  
 }
