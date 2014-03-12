@@ -22,11 +22,13 @@ public class PlagiarismCheckerMultipleDriver {
      */
     
     Scanner kb = new Scanner(System.in);
-    System.out.println("Enter Folder Filepath");
+    System.out.println("Plagiarism Checker - Compares 6 word phrases between multiple documents");
+    System.out.println("Enter folder filepath");
     
-    File userDocFolder = new File(kb.nextLine());
+    File userDocFolder = new File(kb.nextLine()); //makes new file of user folder
     
-    
+    System.out.println("Please wait...\n");
+    System.out.println("File name : Similar File(# of common phrases)");    
     
     ArrayList<PlagiarismCheckerDriver> userClasses = new ArrayList<PlagiarismCheckerDriver>(); //array of checker classes to have a different class for each sample doc    
     
@@ -35,12 +37,8 @@ public class PlagiarismCheckerMultipleDriver {
     }
     
     for(PlagiarismCheckerDriver go : userClasses){
-      go.execute();
-      
-      
+      go.execute();//runs the PlagiarismCheckerDriver.java x amount of times where x is # of documents
+            
     }
-    
-    
-    
   }
 }

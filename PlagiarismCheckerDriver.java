@@ -50,7 +50,7 @@ public class PlagiarismCheckerDriver {
     ArrayList<String> userWordlist = new ArrayList<String>(); //wordlist, hashlist for user doc
     ArrayList<Integer> userHashlist = new ArrayList<Integer>();
     
-    userWordlist.addAll(userClass.fileToArraylist());
+    userWordlist.addAll(userClass.fileToArraylist());    
     userHashlist.addAll(userClass.listToHash(userClass.fileToArraylist()));
     
     for(ArrayList<Integer> sampHash : sampHashlist){ //retain all hashes same between user doc and sample doc
@@ -58,26 +58,33 @@ public class PlagiarismCheckerDriver {
     }
     
     ArrayList<String> suspectedFiles = new ArrayList<String>();
+    ArrayList<Integer> suspectedFilesNumber = new ArrayList<Integer>();
     
-    for(int i = 0; i < sampDocFolder.listFiles().length; i++){     //prints name and length of all file hashlists 
+    for(int i = 0; i < sampDocFolder.listFiles().length; i++){     //sets up results to be displayed      
+      if(sampHashlist.get(i).size() == 0){}
       
-      if(sampHashlist.get(i).size() == 0){
-       System.out.print("-" + " ");
+      else{        
+        if(!sampDocFolder.listFiles()[i].getName().equalsIgnoreCase(userDocu.getName())){  //sets up results to be displayed again
+          suspectedFilesNumber.add(sampHashlist.get(i).size());
+        }
       }
       
-      else System.out.print(sampHashlist.get(i).size() + " "); 
-      
-      
-      if(!sampDocFolder.listFiles()[i].getName().equalsIgnoreCase(userDocu.getName())){
-        
-        if(sampHashlist.get(i).size() >= 200){
+      if(!sampDocFolder.listFiles()[i].getName().equalsIgnoreCase(userDocu.getName())){ //sets up results to be displayed some more        
+        if(sampHashlist.get(i).size() >= 1){
           suspectedFiles.add(sampDocFolder.listFiles()[i].getName());        
-        }
-        
+        }        
       }
     }
     
-    System.out.println("\tPlagiarism detected between files: " + suspectedFiles);
-    
+    if(suspectedFiles.size() > 0){  //prints results cleanly on screen     
+      System.out.print(userDocu.getName() + " : ");
+      
+      for(int i = 0; i < suspectedFiles.size(); i++){
+        System.out.print(suspectedFiles.get(i) + "(" + suspectedFilesNumber.get(i) + ") ");
+      }
+      
+      System.out.println("");
+      
+    }
   }  
 }
